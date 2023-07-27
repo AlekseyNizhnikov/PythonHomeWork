@@ -40,10 +40,6 @@ class Mammal(Animals):
         print(f"Вес животного: {self.weight}")
 
 
-# fabrication = Fabrica(Bird, 120)
-# bird = fabrication.fabrication(Bird, 120)
-# bird.get_wingspan()
-
 fabrication = Fabrica(Mammal, 250)
 mammal = fabrication.fabrication()
 mammal.get_weight()
