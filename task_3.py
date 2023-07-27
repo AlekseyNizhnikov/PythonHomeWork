@@ -11,13 +11,16 @@ class ConvertFileInfo():
         :file_name: str имя pickle-файла.
         :dict_data: dict словарь данных для преобразования в pickle-файл.
         """
+
+        file_name = function.__name__
+
         def _wrapper(*args, **kwargs):
-            file_name = function.__name__
             data = function(*args, *kwargs)
 
             with open(f"{file_name}.pkl", "wb") as file:
                 pickle.dump(data, file)
-        
+
+            return data
         return _wrapper
     
     def csv_file(function):
@@ -26,9 +29,11 @@ class ConvertFileInfo():
         :file_name: str имя csv-файла.
         :dict_data: dict словарь данных для преобразования в csv-файл.
         """
+
+        file_name = function.__name__
+
         def _wrapper(*args, **kwargs):
             fields = ["Имя файла", "Тип файла", "Родительская директория", "Размер файла"]
-            file_name = function.__name__
             data = function(*args, **kwargs)
 
             with open(f"{file_name}.csv", "w", encoding="UTF-8", newline="") as file:
@@ -38,6 +43,7 @@ class ConvertFileInfo():
                     for name, propertys in obj.items():
                         type_file, father, width = propertys
                         result.writerow((name, type_file, father, width))
+            return data
         return _wrapper
     
 
@@ -47,18 +53,20 @@ class ConvertFileInfo():
         :file_name: str имя json-файла.
         :dict_data: dict словарь данных для преобразования в json-файл.
         """
+        file_name = function.__name__
+
         def _wrapper(*args, **kwargs):
-            file_name = function.__name__
             data = function(*args, **kwargs)
 
             with open(f"{file_name}.json", "w", encoding="UTF-8") as file:
                 json.dump(data, file)
-            
+
+            return data
         return _wrapper
 
     @pickle_file
-    @json_file
     @csv_file
+    @json_file
     def dir_walk(self):
         """
         Метод рекурсивно обходит все дерево директорий и формирует словарь из имени файла и
@@ -102,5 +110,5 @@ class ConvertFileInfo():
         return total_size
 
 
-cfi = ConvertFileInfo("/home/a/Test/Liza")
+cfi = ConvertFileInfo(r"C:\Users\HP\Desktop\12")
 cfi.dir_walk()

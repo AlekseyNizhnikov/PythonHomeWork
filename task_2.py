@@ -8,6 +8,10 @@ import os
 
 
 class DecoratorJSON():
+    """
+    Класс декоратор. Формирует json-файл из результата работы функции и переданных ей аргументов.
+    """
+    
     def __init__(self, function) -> None:
         self.function = function
 
